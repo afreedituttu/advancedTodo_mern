@@ -18,7 +18,7 @@ const Login = asyncHandler( async(req, res)=>{
         throw new CustomError("Password doesnt match", 404)
     }
     const token = jwt_sign({userId:user._id});
-    return res.json({success:true, token:token, user:{username:user.username, email:user.email,userId:user._id,}}).status(200)
+    return res.status(200).json({success:true, token:token, user:{username:user.username, email:user.email,userId:user._id,}})
 })
 
 const Signup = asyncHandler( async(req, res)=>{
@@ -32,7 +32,7 @@ const Signup = asyncHandler( async(req, res)=>{
         password: await bcrypt.hash(password, 10)
     })
     await user.save()
-    res.json({success:true}).status(200)
+    res.status(200).json({success:true})
 })
 
 module.exports = {Login, Signup}

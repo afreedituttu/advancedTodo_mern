@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/user');
 
 const private_details = asyncHandler(async(req, res)=>{
-    res.json({
+    res.status(200).json({
         success:true,
         user:req.user
     })
