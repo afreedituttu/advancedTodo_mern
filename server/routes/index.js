@@ -1,10 +1,12 @@
 const router = require('express').Router()
-const CustomError = require('../utilities/CustomError')
-const asyncHandler = require('express-async-handler')
+const { authentication } = require('../middlewares/jwt.js')
 
-router.get('/', asyncHandler( async(req, res)=>{
-    throw new CustomError("test", 500)
-    return res.json({success:true}).status(200)
-}))
+const authRoutes = require('./auth.js')
+const userRoutes = require('./user.js')
+const todoRoutes = require('./todo.js')
+
+router.use('/auth', authRoutes)
+router.use('/user',  authentication, userRoutes)
+router.use('/todo', authentication, todoRoutes)
 
 module.exports = router

@@ -18,6 +18,9 @@ app.use('/api', routes)
 app.get('/test',(req, res)=>{
     return res.json({"message":"working"}).status(200);
 })
+app.use((req, res)=>{
+    res.json({success:false, message:`path doesnot exist ${req.url}`})
+})
 app.use(errorHandler)
 const PORT = process.env.PORT || 3001
 
