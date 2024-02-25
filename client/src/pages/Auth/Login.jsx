@@ -20,6 +20,7 @@ const Login = () => {
       })
     })
   }
+  //Login
   const submit = async()=> {
     try{
       const {data} = await axios.post(URL+'auth/login',{
@@ -40,7 +41,6 @@ const Login = () => {
   }
   return (
     <div className=' p-5 flex justify-center h-screen items-center'>
-    <Link to='/'>Home</Link>
       <form onSubmit={(e)=>{
         e.preventDefault()
         submit()
@@ -48,6 +48,7 @@ const Login = () => {
         email : <input value={input.email} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='email' type="email" placeholder='Email'/>
         password : <input value={input.password} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='password' type="password" placeholder='Password'/>
         <button className=' text-white bg-green-500 py-1 my-2' type='submit'>Login</button>
+        <Link to='/signup' className=' py-2 text-center text-blue-600'>Dont have an account ? Signup</Link>
       </form>
     </div>
   )

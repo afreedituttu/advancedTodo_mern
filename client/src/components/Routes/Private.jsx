@@ -8,10 +8,10 @@ const Private = () => {
     const bool = localStorage.getItem('token') ? true : false;
     const [auth, setAuth] = useState(bool);
     const {user, setUser} = useContext(context);
-    console.log('private ',user);
+    const navigate = useNavigate();
     const config = {
         headers:{
-            "Authorization":`Bearer ${localStorage.getItem('token')}`
+            "authorization":`Bearer ${localStorage.getItem('token')}`
         }
     }
     useEffect(()=>{
@@ -29,7 +29,7 @@ const Private = () => {
             }
         }
         getUser();
-    }, [bool])
+    }, [bool, navigate])
   return (auth?<Outlet />:<Navigate to='/login' />)
 }
 

@@ -23,6 +23,7 @@ const Login = asyncHandler( async(req, res)=>{
 })
 
 const Signup = asyncHandler( async(req, res)=>{
+    console.log('from reg ', req.body);
     const {username, email, password} = req.body
     if(!username || !email || !password){
         throw new CustomError("Necessary details are not filled", 404)
