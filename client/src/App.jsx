@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "./index.css"
+import { Routes, Route, Outlet } from 'react-router-dom'
+import Login from './pages/Auth/Login'
+import Signup from './pages/Auth/Signup'
+import Private from './components/Routes/Private'
+import Profile from './pages/Profile/Profile'
+import Home from './pages/Home/Home'
+import { context } from './context/context'
 
 const App = () => {
+  const {user} = useContext(context);
+  console.log('app ',  user);
   return (
     <div>
-      App
+      <Routes>
+        <Route path='/' element={<Private />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/profile' element={<Profile />} />
+        </Route>
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='*' element={<p>Not found</p>} />
+      </Routes>
     </div>
   )
 }

@@ -4,6 +4,7 @@
 /node_modules
 node_modules/
 **/test[0-9].*
+**/.env
 /.pnp
 .pnp.js
 

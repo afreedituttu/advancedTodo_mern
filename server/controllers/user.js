@@ -4,7 +4,11 @@ const User = require('../models/user');
 const private_details = asyncHandler(async(req, res)=>{
     res.status(200).json({
         success:true,
-        user:req.user
+        user:{
+            username:req.user.username,
+            userId:req.user._id,
+            email:req.user.email
+        }
     })
 })
 
