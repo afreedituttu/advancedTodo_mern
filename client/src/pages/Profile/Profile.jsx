@@ -5,7 +5,7 @@ import axios from 'axios';
 import { URL } from '../../constants';
 
 const Profile = () => {
-  const {setUser:context_setUser} = useContext(context);
+  const {setUser:context_setUser, user:context_user} = useContext(context);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [enableUpdate, setEnableUpdate] = useState(false);
@@ -33,7 +33,7 @@ const Profile = () => {
       }
     }
     retrieve();
-  },[])
+  },[context_user])
   const onchange = (e)=> {
     setEnableUpdate(true)
     const {name, value} = e.target;
@@ -52,7 +52,6 @@ const Profile = () => {
       const {data} = await axios.put(URL+'user', {
         ...user
       }, config)
-      setUser(data.user);
       console.log(data.user);
       context_setUser(data.user)
       setEnableUpdate(false)
