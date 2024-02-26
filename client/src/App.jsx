@@ -7,9 +7,10 @@ import Private from './components/Routes/Private'
 import Profile from './pages/Profile/Profile'
 import Home from './pages/Home/Home'
 import { context } from './context/context'
+import contextHook from './Hooks/contextHook'
 
 const App = () => {
-  const {user} = useContext(context);
+  const {user} = contextHook();
   console.log('app ',  user);
   return (
     <div>

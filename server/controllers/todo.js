@@ -14,7 +14,8 @@ const Get_todo = asyncHandler(async(req, res)=>{
 })
 
 const Add_todo = asyncHandler(async(req, res)=>{
-    const { name, content, status } = req.body;
+    console.log(req.body);
+    const { name, content } = req.body;
     if(!name || !content){
         throw new CustomError("Necessary details are not filled", 400)
     }
@@ -37,8 +38,7 @@ const Delete_todo = asyncHandler(async(req, res)=>{
 })
 
 const Update_todo = asyncHandler(async(req, res)=>{
-    const { name, content, status } = req.body;
-    const {id} = req.params
+    const { name, content, status, id } = req.body;
     if(!id){
         throw new CustomError("Id is required", 400)
     }

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
-import { context } from '../../context/context';
 import axios from 'axios';
 import { URL } from '../../constants';
+import contextHook from '../../Hooks/contextHook'
 
 const Profile = () => {
-  const {setUser:context_setUser, user:context_user} = useContext(context);
+  const {setUser:context_setUser} = contextHook();
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [enableUpdate, setEnableUpdate] = useState(false);
@@ -33,7 +33,7 @@ const Profile = () => {
       }
     }
     retrieve();
-  },[context_user])
+  },[])
   const onchange = (e)=> {
     setEnableUpdate(true)
     const {name, value} = e.target;
@@ -52,6 +52,7 @@ const Profile = () => {
       const {data} = await axios.put(URL+'user', {
         ...user
       }, config)
+      setUser(data.user);
       console.log(data.user);
       context_setUser(data.user)
       setEnableUpdate(false)
