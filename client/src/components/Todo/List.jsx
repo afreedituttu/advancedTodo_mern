@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import contextHook from '../../Hooks/contextHook'
-import { URL, sample_todo } from '../../constants'
+import { URL } from '../../constants'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
@@ -8,12 +8,6 @@ const List = ({editAble}) => {
     const {todo, settodo} = contextHook();
     const [message, setMessage] = useState();
     const delete_todo = async(id)=> {
-      const config = {
-        headers:{
-          "authorization":`Bearer ${localStorage.getItem('token')}`
-        }
-      }
-      console.log(id);
       try{
         const {data} = await axios.delete(URL+'todo/'+id,{
           headers:{
@@ -42,8 +36,7 @@ const List = ({editAble}) => {
         </thead>
         <tbody className=''>
           {todo.map((data, index)=>{
-            console.log(data)
-            return(<tr>
+            return(<tr key={index}>
               <td className=' px-4 py-2'>{index+1}</td>
               <td className=' px-4 py-2'>{data.name}</td>
               <td className=' px-4 py-2'>{data.status?"completed":"not completed"}</td>

@@ -1,7 +1,5 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/user');
-const CustomError = require('../utilities/CustomError');
-const bcrypt = require('bcrypt')
 
 const private_details = asyncHandler(async(req, res)=>{
     res.status(200).json({

@@ -1,18 +1,13 @@
-import React, { useContext } from 'react'
 import "./index.css"
-import { Routes, Route, Outlet } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
 import Private from './components/Routes/Private'
 import Profile from './pages/Profile/Profile'
 import Home from './pages/Home/Home'
-import { context } from './context/context'
-import contextHook from './Hooks/contextHook'
 import Detailed from './pages/Detailed/Detailed'
 
 const App = () => {
-  const {user} = contextHook();
-  console.log('app ',  user);
   return (
     <div>
       <Routes>

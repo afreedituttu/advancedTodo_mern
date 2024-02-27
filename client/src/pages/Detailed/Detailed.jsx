@@ -5,11 +5,11 @@ import { URL } from '../../constants';
 import axios from 'axios';
 
 const Detailed = () => {
-  const {id} = useParams();
-  const [todo, setTodo] = useState();
-  const [message, setMessage] = useState();
+  const {id} = useParams(null);
+  const [todo, setTodo] = useState([]);
+  const [message, setMessage] = useState(null);
   const [changed, setChanged] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate(null);
 
   useEffect(()=>{
     async function getTodo(){
@@ -55,7 +55,6 @@ const Detailed = () => {
     }
   }
   const delete_todo = async()=> {
-    console.log(id);
     try{
       const {data} = await axios.delete(URL+'todo/'+id,{
         headers:{
@@ -70,7 +69,10 @@ const Detailed = () => {
       setMessage(response.data.message);
     }
   }
-  console.log('view ',todo);
+  const updateActiveStyle = "transition py-1 px-3 bg-blue-600 text-white m-1"
+  const updatePassiveStyle = "transition py-1 px-3 bg-gray-500 text-white m-1"
+  const statusActiveStyle = "transition py-1 px-3 bg-green-600 text-white"
+  const statusPassiveStyle = "transition py-1 px-3 bg-black text-white"
   return (
     <div>
       <Navbar />
@@ -82,8 +84,8 @@ const Detailed = () => {
           <input type="text" className=' p-1 border-b-2 border-gray-300' value={todo && todo.name} onChange={onchange} name='name' />
           <input type="text" className=' p-1 border-b-2 border-gray-300' value={todo && todo.content} onChange={onchange} name='content' />
           <div className="buttons">
-          <button onClick={update} className={`transition py-1 px-3 bg-${changed?"blue":"gray"}-600 text-white m-1`} disabled={!changed} >update</button>
-          <button className={` transition py-1 px-3 bg-${todo && todo.status==true?"black":"green-500"} text-white`} onClick={()=>{
+          <button onClick={update} className={changed?updateActiveStyle:updatePassiveStyle} disabled={!changed} >update</button>
+          <button className={todo && todo.status?statusPassiveStyle:statusActiveStyle} onClick={()=>{
             setTodo(()=>{
               setChanged(true);
               return {

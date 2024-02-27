@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Login = () => {
   const navigate = useNavigate();
   const {setUser} = useContext(context);
+  const [message, setMessage] = useState();
   const [input, setInput] = useState({
     email:"",
     password:""
@@ -20,27 +21,26 @@ const Login = () => {
       })
     })
   }
-  //Login
   const submit = async()=> {
     try{
       const {data} = await axios.post(URL+'auth/login',{
         email:input.email,
         password:input.password
       })
-      console.log(data.user);
       localStorage.setItem('token', data.token);
       setUser(data.user)
       setTimeout(()=>{
         navigate('/')
       },1000)
     }catch({response}){
-      console.log('error ',response.data.message);
+      setMessage(response.data.message);
       localStorage.removeItem('token')
       setUser(null)
     }
   }
   return (
     <div className=' p-5 flex justify-center h-screen items-center'>
+    {message}
       <form onSubmit={(e)=>{
         e.preventDefault()
         submit()

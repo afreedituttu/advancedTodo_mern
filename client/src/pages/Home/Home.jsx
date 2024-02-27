@@ -17,7 +17,6 @@ const Home = () => {
             "authorization":`Bearer ${localStorage.getItem('token')}`
           }
         })
-        console.log(data);
         settodo(data.todo);
       }catch({response}){
         setError(response.data.message);
@@ -29,6 +28,7 @@ const Home = () => {
     <div>
     <Navbar />
     <div className="p-5">
+    {error}
       <span className=' text-center text-2xl text-gray-900 py-3'>TODO'S :</span>
       <div className=" flex justify-between p-3 w-10/12 mx-auto">
         <List editAble={true} />

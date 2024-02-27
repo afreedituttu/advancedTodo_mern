@@ -7,7 +7,7 @@ import axios from 'axios';
 const Private = () => {
     const bool = localStorage.getItem('token') ? true : false;
     const [auth, setAuth] = useState(bool);
-    const {user, setUser} = useContext(context);
+    const {setUser} = useContext(context);
     const navigate = useNavigate();
     const config = {
         headers:{
@@ -15,14 +15,12 @@ const Private = () => {
         }
     }
     useEffect(()=>{
-        console.log('executing private.... \n');
         async function getUser(){
             try{
                 const {data} = await axios.get(URL + 'user/private', config);
                 setAuth(true)
                 setUser(data.user);
             }catch({response}){
-                console.log(response.data.message);
                 setAuth(false)
                 setUser(null)
                 localStorage.removeItem('token');

@@ -7,13 +7,10 @@ import contextHook from '../../Hooks/contextHook'
 const Profile = () => {
   const {setUser:context_setUser} = contextHook();
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
   const [enableUpdate, setEnableUpdate] = useState(false);
   const update_style = 'bg-blue-600 px-3 py-1 transition text-white'
   const normal_style = 'bg-gray-500 px-3 py-1 text-white'
-  if(error){
-    console.log(error);
-  }
   
   const config = {
     headers:{
@@ -24,12 +21,10 @@ const Profile = () => {
     async function retrieve(){
       try{
         const {data} = await axios.get(URL+'user', config);
-        console.log(data);
         setUser(data.user)
       }catch({response}){
-        console.log(response.data.message);
         setUser(null)
-        setError(response.data.message);
+        setMessage(response.data.message);
       }
     }
     retrieve();
@@ -46,41 +41,33 @@ const Profile = () => {
   }
   const update = async()=> {
     try{
-      if(!onchange){
-        return console.log('connot be updated without any changes');
-      }
       const {data} = await axios.put(URL+'user', {
         ...user
       }, config)
       setUser(data.user);
-      console.log(data.user);
       context_setUser(data.user)
       setEnableUpdate(false)
     }catch({response}){
       setUser(null);
-      setError(response.data.message);
+      setMessage(response.data.message);
     }
   }
   const delete_account = async()=> {
     try{
-      console.log('id ',user.userId);
       const {data} = await axios.delete(URL+'user',{
         headers:{
           authorization:`Bearer ${localStorage.getItem('token')}`
         }
       })
-      console.log(data);
-      // setUser(null);
     }catch({response}){
-      // setUser(null);
-      console.log(response.data.message);
-      setError(response.data.message);
+      setMessage(response.data.message);
     }
   }
   return (
     <div>
       <Navbar />
       <div className="p-5 flex justify-center items-center h-screen">
+      {message}
         <form className='flex flex-col gap-2 bg-slate-300 p-3' onSubmit={(e)=>{
           e.preventDefault()
         }}>

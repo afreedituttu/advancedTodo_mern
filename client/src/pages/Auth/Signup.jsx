@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Signup = () => {
   const navigate = useNavigate();
   const {setUser} = useContext(context);
+  const [message, setMessage] = useState();
   const [input, setInput] = useState({
     username:"",
     email:"",
@@ -28,18 +29,18 @@ const Signup = () => {
         email:input.email,
         password:input.password
       })
-      console.log(data);
       setTimeout(()=>{
         navigate('/login')
       },1000)
     }catch({response}){
-      console.log('error ',response.data.message);
+      setMessage(response.data.message)
       localStorage.removeItem('token')
       setUser(null)
     }
   }
   return (
     <div className=' p-5 flex justify-center h-screen items-center'>
+    {message}
       <form onSubmit={(e)=>{
         e.preventDefault()
         submit()

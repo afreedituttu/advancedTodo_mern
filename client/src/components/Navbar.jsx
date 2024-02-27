@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 import { context } from '../context/context'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   const {user, setUser} = useContext(context)
-  const navigate = useNavigate()
   return (
     <div className=' flex justify-between py-2 px-5 border-b-2 border-black'>
       <div className="logo text-2xl">
