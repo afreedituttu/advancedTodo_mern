@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { context } from "../context/context";
 
 const ContextContext = ()=> {
-    const {user, setUser, todo, setTodo} = useContext(context);
+    const {user, setUser, todo, settodo} = useContext(context);
 
-    return {user, setUser, todo, setTodo}
+    return {user, setUser, todo, settodo}
 }
 
 export default ContextContext;

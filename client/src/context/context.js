@@ -4,9 +4,9 @@ export const context = createContext();
 
 const ContextProvider = ({children})=> {
     const [user, setUser] = useState(null);
-    const [todo, setTodo] = useState([]);
+    const [todo, settodo] = useState([]);
 
-    return (<context.Provider value={{user, todo, setUser, setTodo}}>
+    return (<context.Provider value={{user, todo, setUser, settodo}}>
         {children}
     </context.Provider>)
 }

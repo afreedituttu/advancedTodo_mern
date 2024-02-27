@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import contextHook from '../../Hooks/contextHook'
 import { URL, sample_todo } from '../../constants'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const List = ({editAble}) => {
-    const {todo, setTodo} = contextHook();
+    const {todo, settodo} = contextHook();
     const [message, setMessage] = useState();
     const delete_todo = async(id)=> {
       const config = {
@@ -19,7 +20,7 @@ const List = ({editAble}) => {
             authorization:`Bearer ${localStorage.getItem('token')}`
           }
         })
-        setTodo((old_todo)=>{
+        settodo((old_todo)=>{
           return old_todo.filter(todo=>todo._id!=id)
         })
         setMessage("Deleted")
@@ -45,8 +46,8 @@ const List = ({editAble}) => {
             return(<tr>
               <td className=' px-4 py-2'>{index+1}</td>
               <td className=' px-4 py-2'>{data.name}</td>
-              <td className=' px-4 py-2'>{data.status}</td>
-              <td className=' px-4 py-2'><button className=' px-3 py-1 bg-blue-500 text-white m-1'>view</button>{editAble?(<><button className=' px-3 py-1 bg-blue-500 text-white m-1'>Edit</button><button onClick={()=>{delete_todo(data._id)}} className=' px-3 py-1 bg-red-500 text-white m-1'>delete</button></>):""}</td>
+              <td className=' px-4 py-2'>{data.status?"completed":"not completed"}</td>
+              <td className=' px-4 py-2'><Link to={`/details/${data._id}`} ><button className=' px-3 py-1 bg-blue-500 text-white m-1'>view</button></Link>{editAble?(<button onClick={()=>{delete_todo(data._id)}} className=' px-3 py-1 bg-red-500 text-white m-1'>delete</button>):""}</td>
           </tr>)
           })}
         </tbody>

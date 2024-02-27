@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { context } from '../../context/context'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar';
 import {URL} from '../../constants'
 import axios from 'axios';
@@ -8,10 +7,10 @@ import contextHook from '../../Hooks/contextHook';
 import Add from '../../components/Todo/Add'
 
 const Home = () => {
-  const {setTodo} = contextHook();
+  const {settodo} = contextHook();
   const [error, setError] = useState();
   useEffect(()=>{
-    async function getTodo(){
+    async function gettodo(){
       try{
         const {data} = await axios.get(URL+'todo',{
           headers:{
@@ -19,12 +18,12 @@ const Home = () => {
           }
         })
         console.log(data);
-        setTodo(data.todo);
+        settodo(data.todo);
       }catch({response}){
         setError(response.data.message);
       }
     };
-    getTodo();
+    gettodo();
   },[])
   return (
     <div>

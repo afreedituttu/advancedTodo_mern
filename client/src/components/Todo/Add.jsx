@@ -4,7 +4,7 @@ import axios from 'axios'
 import contextHook from '../../Hooks/contextHook';
 
 const Add = () => {
-  const {setTodo} = contextHook();
+  const {settodo} = contextHook();
   const [input, setInput] = useState({
     name:"",
     content:""
@@ -29,7 +29,7 @@ const Add = () => {
           "authorization":`Bearer ${localStorage.getItem('token')}`
         }
       });
-      setTodo((old_todo)=>{
+      settodo((old_todo)=>{
         return[
           ...old_todo,
           data.todo
@@ -42,7 +42,7 @@ const Add = () => {
           name:"",
           content:""
         })
-      },3000)
+      },1000)
     }catch({response}){
       setMessage(response.data.message)
     }

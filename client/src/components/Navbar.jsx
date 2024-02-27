@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <div className=' flex justify-between py-2 px-5 border-b-2 border-black'>
       <div className="logo text-2xl">
-        Advanced Todo
+        Advanced todo
       </div>
       <ul className="list flex items-center">
         <Link to='/' className=' pl-4'>Home</Link>

@@ -3,7 +3,7 @@ const CustomError = require('../utilities/CustomError')
 const asyncHandler = require('express-async-handler')
 
 const GetAll_todo = asyncHandler(async(req, res)=>{
-    const user_todos = await Todo.find({userId: req.user._id})
+    const user_todos = await Todo.find({userId: req.user._id}).select({content:0});
     res.status(200).json({success:true,todo:user_todos});
 })
 

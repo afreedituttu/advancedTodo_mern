@@ -8,6 +8,7 @@ import Profile from './pages/Profile/Profile'
 import Home from './pages/Home/Home'
 import { context } from './context/context'
 import contextHook from './Hooks/contextHook'
+import Detailed from './pages/Detailed/Detailed'
 
 const App = () => {
   const {user} = contextHook();
@@ -18,6 +19,7 @@ const App = () => {
         <Route path='/' element={<Private />}>
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/details/:id' element={<Detailed />} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
