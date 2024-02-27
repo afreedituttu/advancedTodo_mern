@@ -4,10 +4,6 @@ const CustomError = require('../utilities/CustomError');
 const User = require('../models/user');
 
 const authentication = asyncHandler(async(req, res, next)=>{
-    console.log('jwt');
-    console.log(req.headers);
-    console.log(req.body);
-    console.log('jwt');
     const token = req.headers.authorization.split(' ')[1];
     if(!token){
         throw new CustomError("Token not included", 404)

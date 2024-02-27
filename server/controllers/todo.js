@@ -14,7 +14,6 @@ const Get_todo = asyncHandler(async(req, res)=>{
 })
 
 const Add_todo = asyncHandler(async(req, res)=>{
-    console.log(req.body);
     const { name, content } = req.body;
     if(!name || !content){
         throw new CustomError("Necessary details are not filled", 400)

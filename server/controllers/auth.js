@@ -5,13 +5,11 @@ const bcrypt = require('bcrypt')
 const { jwt_sign } = require('../middlewares/jwt')
 
 const Login = asyncHandler( async(req, res)=>{
-    console.log(req.body);
     const {email, password} = req.body
     if(!email || !password){
         throw new CustomError("Necessary details not filled", 400)
     }
     const user = await User.findOne({email})
-    console.log(user);
     if(!user){
         throw new CustomError("User not exist", 404)
     }
@@ -23,7 +21,6 @@ const Login = asyncHandler( async(req, res)=>{
 })
 
 const Signup = asyncHandler( async(req, res)=>{
-    console.log('from reg ', req.body);
     const {username, email, password} = req.body
     if(!username || !email || !password){
         throw new CustomError("Necessary details are not filled", 404)
