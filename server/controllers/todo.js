@@ -9,7 +9,7 @@ const GetAll_todo = asyncHandler(async(req, res)=>{
 
 const Get_todo = asyncHandler(async(req, res)=>{
     const { id } = req.params
-    const todo = await Todo.findOne({_id:id});
+    const todo = await Todo.findOne({_id:id,userId:req.user._id});
     res.status(200).json({success:true,todo})
 })
 
@@ -33,7 +33,7 @@ const Delete_todo = asyncHandler(async(req, res)=>{
     if(!id){
         throw new CustomError("Id is required", 400)
     }
-    await Todo.findByIdAndDelete(id);
+    await Todo.findOneAndDelete({_id:id, userId:req.user._id});
     res.status(200).json({success:true})
 })
 
@@ -42,7 +42,7 @@ const Update_todo = asyncHandler(async(req, res)=>{
     if(!id){
         throw new CustomError("Id is required", 400)
     }
-    const updated_todo = await Todo.findByIdAndUpdate(id, {
+    const updated_todo = await Todo.findOneAndUpdate({_id:id, userId:req.user._id}, {
         $set:{name, content, status}
     }, {new:true})
     res.status(200).json({success:true,updated_todo})
