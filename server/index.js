@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler')
+const logger = require('morgan');
 
 const dotenv = require('dotenv');
 dotenv.config({
@@ -14,6 +15,7 @@ const routes = require('./routes')
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(cors())
+app.use(logger('dev'))
 app.use('/api', routes)
 app.get('/test',(req, res)=>{
     return res.status(200).json({"message":"working"});
