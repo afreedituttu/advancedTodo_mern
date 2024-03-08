@@ -28,7 +28,7 @@ export const todoSlice = createSlice({
         })
         .addCase(getAllTodo.fulfilled, (state, action)=>{
             state.loading = false
-            state.todos = action.payload
+            state.todos = action.payload.todo
         })
         .addCase(getAllTodo.rejected, (state, action)=>{
             state.loading = false

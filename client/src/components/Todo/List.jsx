@@ -1,30 +1,32 @@
-import React, { useState } from 'react'
-import contextHook from '../../Hooks/contextHook'
-import { URL } from '../../constants'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getAllTodo } from '../../features/todo/todoActions'
+import {useDispatch, useSelector} from 'react-redux'
 
 const List = ({editAble}) => {
-    const {todo, settodo} = contextHook();
-    const [message, setMessage] = useState();
+    const {todos, error} = useSelector(state=>state.todo)
+    const dispatch = useDispatch();
+    useEffect(()=>{
+      dispatch(getAllTodo());
+    },[])
     const delete_todo = async(id)=> {
-      try{
-        const {data} = await axios.delete(URL+'todo/'+id,{
-          headers:{
-            authorization:`Bearer ${localStorage.getItem('token')}`
-          }
-        })
-        settodo((old_todo)=>{
-          return old_todo.filter(todo=>todo._id!=id)
-        })
-        setMessage("Deleted")
-      }catch({response}){
-        setMessage(response.data.message);
-      }
+      // try{
+      //   const {data} = await axios.delete(URL+'todo/'+id,{
+      //     headers:{
+      //       authorization:`Bearer ${localStorage.getItem('token')}`
+      //     }
+      //   })
+      //   settodo((old_todo)=>{
+      //     return old_todo.filter(todo=>todo._id!=id)
+      //   })
+      //   setMessage("Deleted")
+      // }catch({response}){
+      //   setMessage(response.data.message);
+      // }
     }
   return (
     <div>
-    {message}
+    {error}
       <table className='table'>
         <thead className=''>
           <tr>
@@ -35,7 +37,7 @@ const List = ({editAble}) => {
           </tr>
         </thead>
         <tbody className=''>
-          {todo.map((data, index)=>{
+          {todos.map((data, index)=>{
             return(<tr key={index}>
               <td className=' px-4 py-2'>{index+1}</td>
               <td className=' px-4 py-2'>{data.name}</td>

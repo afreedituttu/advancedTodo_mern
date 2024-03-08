@@ -47,3 +47,38 @@ export const userRegister = createAsyncThunk(
         }
     }
 )
+
+export const getProfile = createAsyncThunk(
+    'user/profile',
+    async(_, thunkApi) => {
+        try{
+            const {data} = await axios.get(URL+'user',{
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            return data;
+        }catch({response}){
+            return thunkApi.rejectWithValue(response.data);
+        }
+    }
+)
+
+export const updateProfile = createAsyncThunk(
+    'user/updateProfile',
+    async({username, email}, thunkApi) => {
+        try{
+            const config = {
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem('token')}`
+                }
+            }
+            const {data} = await axios.put(URL+'user',{
+                username, email
+            }, config)
+            return data
+        }catch({response}){
+            return thunkApi.rejectWithValue(response.data);
+        }
+    }
+)

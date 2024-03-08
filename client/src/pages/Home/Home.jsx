@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar';
 import Add from '../../components/Todo/Add'
+import List from '../../components/Todo/List';
 
 const Home = () => {
   // const {settodo} = contextHook();
@@ -27,7 +28,7 @@ const Home = () => {
     {error}
       <span className=' text-center text-2xl text-gray-900 py-3'>TODO'S :</span>
       <div className=" flex justify-between p-3 w-10/12 mx-auto">
-        {/* <List editAble={true} /> */}
+        <List editAble={true} />
         <Add />
       </div>
     </div>

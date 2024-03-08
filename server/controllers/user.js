@@ -25,6 +25,8 @@ const get_profile = asyncHandler(async(req, res)=>{
 })
 
 const update_profile = asyncHandler(async(req, res)=>{
+    console.log('hitted');
+
     const { username, email} = req.body;
     const updated_user = await User.findByIdAndUpdate(req.user._id, {
         $set:{username, email}
@@ -33,7 +35,7 @@ const update_profile = asyncHandler(async(req, res)=>{
         success:true,
         user:{
             username:updated_user.username,
-            userId:updated_user.userId,
+            userId:updated_user._id,
             email:updated_user.email
         }
     })

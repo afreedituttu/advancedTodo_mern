@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, userRegister, getUser } from "./userActions";
+import { userLogin, userRegister, getUser, getProfile, updateProfile } from "./userActions";
 import { useNavigate } from "react-router-dom";
 
 export const userSlice = createSlice({
@@ -47,6 +47,29 @@ export const userSlice = createSlice({
             state.loading = false
         })
         .addCase(userRegister.rejected, (state, action)=>{
+            state.loading = false
+            state.error = action.payload.message
+        })
+        .addCase(getProfile.pending, (state, action)=>{
+            state.loading = true
+        })
+        .addCase(getProfile.fulfilled, (state, action)=>{
+            state.loading = false
+            state.userObject = action.payload.user
+        })
+        .addCase(getProfile.rejected, (state, action)=>{
+            state.loading = false
+            state.error = action.payload.message
+        })
+        .addCase(updateProfile.pending, (state, action)=>{
+            state.loading = true
+        })
+        .addCase(updateProfile.fulfilled, (state, action)=>{
+            state.loading = false
+            console.log('userslice ', action.payload);
+            state.userObject = action.payload.user
+        })
+        .addCase(updateProfile.rejected, (state, action)=>{
             state.loading = false
             state.error = action.payload.message
         })

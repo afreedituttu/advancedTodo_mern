@@ -40,7 +40,9 @@ export const getAllTodo = createAsyncThunk(
     async(_, thunkApi) => {
         try{
             const {data} = await axios.get(URL+'todo/',{
-                "Authorization":`Bearer ${localStorage.getItem('token')}`
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem('token')}`
+                }
             });
             return data;
         }catch({response}){
