@@ -20,7 +20,7 @@ export const getUser = createAsyncThunk(
 
 export const userLogin = createAsyncThunk(
     'user/login',
-    async({email, password}, thunkApi) => {
+    async({email, password, redirect}, thunkApi) => {
         try{
             const {data} = await axios.post(URL+'auth/login',{
                 email, password

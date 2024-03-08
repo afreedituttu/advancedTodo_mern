@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLogin, userRegister, getUser } from "./userActions";
+import { useNavigate } from "react-router-dom";
 
 export const userSlice = createSlice({
     name:'user',
@@ -30,15 +31,16 @@ export const userSlice = createSlice({
         })
         .addCase(userLogin.pending, (state, action)=>{
             state.loading = true
-
         })
         .addCase(userLogin.fulfilled, (state, action)=>{
-            state.loading = false
+            state.loading = 'bla'
+            state.error = null
             localStorage.setItem('token', action.payload.token)
         })
         .addCase(userLogin.rejected, (state, action)=>{
             state.loading = false
             state.error = action.payload.message
+            localStorage.removeItem('token')
         })
         .addCase(userRegister.pending, (state, action)=>{
             state.loading = true

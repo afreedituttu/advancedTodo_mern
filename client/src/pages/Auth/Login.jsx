@@ -1,13 +1,12 @@
-import React, { useContext, useState } from 'react'
-import { context } from '../../context/context';
-import axios from 'axios';
-import { URL } from '../../constants';
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { userLogin } from '../../features/user/userActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Login = () => {
+  const {userObject, error} = useSelector(state=>state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {setUser} = useContext(context);
-  const [message, setMessage] = useState();
   const [input, setInput] = useState({
     email:"",
     password:""
@@ -22,25 +21,19 @@ const Login = () => {
     })
   }
   const submit = async()=> {
-    try{
-      const {data} = await axios.post(URL+'auth/login',{
-        email:input.email,
-        password:input.password
-      })
-      localStorage.setItem('token', data.token);
-      setUser(data.user)
-      setTimeout(()=>{
+    dispatch(userLogin(input)).then((res)=>{
+      console.log("res ",res);
+      console.log(userObject);
+      if(res.payload.success){
         navigate('/')
-      },1000)
-    }catch({response}){
-      setMessage(response.data.message);
-      localStorage.removeItem('token')
-      setUser(null)
-    }
+      }
+    }).catch((err)=>{
+      console.log('login err ',err);
+    });
   }
   return (
     <div className=' p-5 flex justify-center h-screen items-center'>
-    {message}
+    {error && error}
       <form onSubmit={(e)=>{
         e.preventDefault()
         submit()
