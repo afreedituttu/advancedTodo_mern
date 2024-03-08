@@ -4,7 +4,7 @@ import { userLogin } from '../../features/user/userActions';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Login = () => {
-  const {userObject, error} = useSelector(state=>state.user);
+  const { error, loading} = useSelector(state=>state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [input, setInput] = useState({
@@ -22,13 +22,9 @@ const Login = () => {
   }
   const submit = async()=> {
     dispatch(userLogin(input)).then((res)=>{
-      console.log("res ",res);
-      console.log(userObject);
       if(res.payload.success){
         navigate('/')
       }
-    }).catch((err)=>{
-      console.log('login err ',err);
     });
   }
   return (
@@ -40,7 +36,7 @@ const Login = () => {
         }} className='p-3 bg-slate-200 flex flex-col gap-1'>
         email : <input value={input.email} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='email' type="email" placeholder='Email'/>
         password : <input value={input.password} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='password' type="password" placeholder='Password'/>
-        <button className=' text-white bg-green-500 py-1 my-2' type='submit'>Login</button>
+        <button disabled={loading} className={`text-white bg-green-${loading?400:500} py-1 my-2`} type='submit'>Login</button>
         <Link to='/signup' className=' py-2 text-center text-blue-600'>Dont have an account ? Signup</Link>
       </form>
     </div>

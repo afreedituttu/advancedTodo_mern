@@ -20,13 +20,15 @@ export const getUser = createAsyncThunk(
 
 export const userLogin = createAsyncThunk(
     'user/login',
-    async({email, password, redirect}, thunkApi) => {
+    async({email, password}, thunkApi) => {
         try{
             const {data} = await axios.post(URL+'auth/login',{
                 email, password
             })
+            localStorage.setItem('token', data.token)
             return data
         }catch({response}){
+            localStorage.removeItem('token')
             return thunkApi.rejectWithValue(response.data);
         }
     }

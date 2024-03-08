@@ -33,9 +33,8 @@ export const userSlice = createSlice({
             state.loading = true
         })
         .addCase(userLogin.fulfilled, (state, action)=>{
-            state.loading = 'bla'
+            state.loading = false
             state.error = null
-            localStorage.setItem('token', action.payload.token)
         })
         .addCase(userLogin.rejected, (state, action)=>{
             state.loading = false
