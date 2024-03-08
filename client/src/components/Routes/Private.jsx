@@ -1,33 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet, useNavigate } from 'react-router-dom'
-import { context } from '../../context/context'
-import { URL } from '../../constants';
-import axios from 'axios';
+import { getUser } from '../../features/user/userActions';
+import {useDispatch} from 'react-redux'
 
 const Private = () => {
     const bool = localStorage.getItem('token') ? true : false;
     const [auth, setAuth] = useState(bool);
-    const {setUser} = useContext(context);
+    console.log(auth);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const config = {
-        headers:{
-            "authorization":`Bearer ${localStorage.getItem('token')}`
-        }
-    }
     useEffect(()=>{
-        async function getUser(){
-            try{
-                const {data} = await axios.get(URL + 'user/private', config);
-                setAuth(true)
-                setUser(data.user);
-            }catch({response}){
+        dispatch(getUser()).then((res)=>{
+            if(!res.type == "user/get/fulfilled"){
                 setAuth(false)
-                setUser(null)
-                localStorage.removeItem('token');
+                navigate('/login')
             }
-        }
-        getUser();
-    }, [bool, navigate])
+        })
+    }, [bool])
   return (auth?<Outlet />:<Navigate to='/login' />)
 }
 

@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
-import { context } from '../context/context'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { logoutUser } from '../features/user/userSlice'
 
 const Navbar = () => {
-  const {user, setUser} = useContext(context)
+  const {userObject:user} = useSelector(state=>state.user)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <div className=' flex justify-between py-2 px-5 border-b-2 border-black'>
       <div className="logo text-2xl">
@@ -13,8 +15,8 @@ const Navbar = () => {
         <Link to='/' className=' pl-4'>Home</Link>
         <Link to='/profile' className=' pl-4'>Profile</Link>
         <li className=' pl-4'><button className=' bg-red-500 text-white px-3 py-1' onClick={()=>{
-          localStorage.removeItem('token')
-          setUser(null)
+          dispatch(logoutUser())
+          navigate('/login')
         }}>Logout</button></li>
         <span className='pl-4'>{user && user.username}</span>
       </ul>

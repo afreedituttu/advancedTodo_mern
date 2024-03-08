@@ -1,14 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { URL } from "../../constants";
 
 export const addTodo = createAsyncThunk(
     'todo/add',
     async({name, content}, thunkApi) => {
         try{
             const config = {
-                "Authorization":`Bearer ${localStorage.getItem('token')}`
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem('token')}`
+                }
             }
-            const {data} = await axios.post(URL+'todo/',{
+            const {data} = await axios.post(URL+'todo',{
                 name, content
             }, config);
             return data;

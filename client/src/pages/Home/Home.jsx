@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar';
-import {URL} from '../../constants'
-import axios from 'axios';
-import List from '../../components/Todo/List';
-import contextHook from '../../Hooks/contextHook';
 import Add from '../../components/Todo/Add'
 
 const Home = () => {
-  const {settodo} = contextHook();
+  // const {settodo} = contextHook();
   const [error, setError] = useState();
-  useEffect(()=>{
-    async function gettodo(){
-      try{
-        const {data} = await axios.get(URL+'todo',{
-          headers:{
-            "authorization":`Bearer ${localStorage.getItem('token')}`
-          }
-        })
-        settodo(data.todo);
-      }catch({response}){
-        setError(response.data.message);
-      }
-    };
-    gettodo();
-  },[])
+  // useEffect(()=>{
+  //   async function gettodo(){
+  //     try{
+  //       const {data} = await axios.get(URL+'todo',{
+  //         headers:{
+  //           "authorization":`Bearer ${localStorage.getItem('token')}`
+  //         }
+  //       })
+  //       settodo(data.todo);
+  //     }catch({response}){
+  //       setError(response.data.message);
+  //     }
+  //   };
+  //   gettodo();
+  // },[])
   return (
     <div>
     <Navbar />
@@ -31,7 +27,7 @@ const Home = () => {
     {error}
       <span className=' text-center text-2xl text-gray-900 py-3'>TODO'S :</span>
       <div className=" flex justify-between p-3 w-10/12 mx-auto">
-        <List editAble={true} />
+        {/* <List editAble={true} /> */}
         <Add />
       </div>
     </div>

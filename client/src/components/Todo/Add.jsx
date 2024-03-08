@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import { URL } from '../../constants'
 import axios from 'axios'
 import contextHook from '../../Hooks/contextHook';
+import { addTodo } from '../../features/todo/todoActions';
+import { useDispatch } from 'react-redux';
 
 const Add = () => {
-  const {settodo} = contextHook();
+  const dispatch = useDispatch();
   const [input, setInput] = useState({
     name:"",
     content:""
   })
-  const [message, setMessage] = useState();
   const onchange = (e)=> {
     setInput((old_input)=>{
       const {name, value} = e.target;
@@ -19,33 +20,21 @@ const Add = () => {
       }
     })
   }
+  const [message, setMessage] = useState();
   const add = async()=> {
-    try{
-      const {data} = await axios.post(URL+'/todo',{
-        name:input.name,
-        content:input.content
-      },{
-        headers:{
-          "authorization":`Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      settodo((old_todo)=>{
-        return[
-          ...old_todo,
-          data.todo
-        ]
-      })
-      setMessage("Task Added");
-      setTimeout(()=>{
-        setMessage();
-        setInput({
-          name:"",
-          content:""
-        })
-      },1000)
-    }catch({response}){
-      setMessage(response.data.message)
-    }
+    dispatch(addTodo(input)).then((res)=>{
+      console.log(res);
+      if(res.type == 'todo/add/fulfilled'){
+        setMessage('Task added')
+        setTimeout(()=>{
+          setMessage();
+          setInput({
+            name:"",
+            content:""
+          })
+        },1000)
+      }
+    })
   }
   return (
     <div className=' p-2 bg-slate-300 w-1/3'>

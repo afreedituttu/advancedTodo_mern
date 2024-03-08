@@ -11,9 +11,8 @@ export const userSlice = createSlice({
     },
     reducers:{
         logoutUser: (state) => {
-            state.userId = null
-            state.username = null
-            state.email = null
+            state.userObject = null
+            localStorage.removeItem('token')
         }
     },
     extraReducers:(builder)=>{
