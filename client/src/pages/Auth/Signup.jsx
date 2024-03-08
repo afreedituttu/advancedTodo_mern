@@ -3,11 +3,13 @@ import { context } from '../../context/context';
 import axios from 'axios';
 import { URL } from '../../constants';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userRegister } from '../../features/user/userActions';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const {setUser} = useContext(context);
-  const [message, setMessage] = useState();
+  const { error, loading} = useSelector(state=>state.user);
+  const dispatch = useDispatch();
   const [input, setInput] = useState({
     username:"",
     email:"",
@@ -22,25 +24,16 @@ const Signup = () => {
       })
     })
   }
-  const submit = async()=> {
-    try{
-      const {data} = await axios.post(URL+'auth/signup',{
-        username:input.username,
-        email:input.email,
-        password:input.password
-      })
-      setTimeout(()=>{
+  const submit = ()=> {
+    dispatch(userRegister(input)).then((res)=>{
+      if(res.type == "user/register/fulfilled"){
         navigate('/login')
-      },1000)
-    }catch({response}){
-      setMessage(response.data.message)
-      localStorage.removeItem('token')
-      setUser(null)
-    }
+      }
+    })
   }
   return (
     <div className=' p-5 flex justify-center h-screen items-center'>
-    {message}
+    {error && error}
       <form onSubmit={(e)=>{
         e.preventDefault()
         submit()
@@ -48,7 +41,7 @@ const Signup = () => {
         username : <input value={input.username} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='username' type="text" placeholder='Email'/>
         email : <input value={input.email} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='email' type="email" placeholder='Email'/>
         password : <input value={input.password} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='password' type="password" placeholder='Password'/>
-        <button className=' text-white bg-green-500 py-1 my-2' type='submit'>Register</button>
+        <button disabled={loading} className={`text-white bg-green-${loading?400:500} py-1 my-2' type='submit`} >Register</button>
         <Link to='/login' className=' py-2 text-center text-blue-600'>Already have an account ? Login</Link>
       </form>
     </div>

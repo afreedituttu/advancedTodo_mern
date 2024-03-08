@@ -22,7 +22,7 @@ const Login = () => {
   }
   const submit = async()=> {
     dispatch(userLogin(input)).then((res)=>{
-      if(res.payload.success){
+      if(res.type == "user/login/fulfilled"){
         navigate('/')
       }
     });
