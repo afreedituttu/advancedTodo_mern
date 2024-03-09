@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, userRegister, getUser, getProfile, updateProfile } from "./userActions";
+import { userLogin, userRegister, getUser, getProfile, updateProfile, deleteProfile } from "./userActions";
 import { useNavigate } from "react-router-dom";
 
 export const userSlice = createSlice({
@@ -21,12 +21,14 @@ export const userSlice = createSlice({
             state.loading = true
         })
         .addCase(getUser.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
             state.userObject = action.payload.user
         })
         .addCase(getUser.rejected, (state, action)=>{
             state.loading = false
             state.error = action.payload.message
+            localStorage.removeItem('token')
         })
         .addCase(userLogin.pending, (state, action)=>{
             state.loading = true
@@ -38,12 +40,12 @@ export const userSlice = createSlice({
         .addCase(userLogin.rejected, (state, action)=>{
             state.loading = false
             state.error = action.payload.message
-            localStorage.removeItem('token')
         })
         .addCase(userRegister.pending, (state, action)=>{
             state.loading = true
         })
         .addCase(userRegister.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
         })
         .addCase(userRegister.rejected, (state, action)=>{
@@ -54,22 +56,38 @@ export const userSlice = createSlice({
             state.loading = true
         })
         .addCase(getProfile.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
             state.userObject = action.payload.user
         })
         .addCase(getProfile.rejected, (state, action)=>{
             state.loading = false
             state.error = action.payload.message
+            state.userObject = null
+            localStorage.removeItem('token')
         })
         .addCase(updateProfile.pending, (state, action)=>{
             state.loading = true
         })
         .addCase(updateProfile.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
-            console.log('userslice ', action.payload);
             state.userObject = action.payload.user
         })
         .addCase(updateProfile.rejected, (state, action)=>{
+            state.loading = false
+            state.error = action.payload.message
+        })
+        .addCase(deleteProfile.pending, (state, action)=>{
+            state.loading = true
+        })
+        .addCase(deleteProfile.fulfilled, (state, action)=>{
+            state.error = false
+            state.loading = false
+            state.userObject = null
+            localStorage.removeItem('token')
+        })
+        .addCase(deleteProfile.rejected, (state, action)=>{
             state.loading = false
             state.error = action.payload.message
         })

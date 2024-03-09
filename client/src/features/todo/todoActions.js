@@ -22,7 +22,7 @@ export const addTodo = createAsyncThunk(
 )
 export const getTodo = createAsyncThunk(
     'todo/get',
-    async({id}, thunkApi) => {
+    async(id, thunkApi) => {
         try{
             const {data} = await axios.get(URL+`todo/${id}`,{
                 headers:{
@@ -35,6 +35,7 @@ export const getTodo = createAsyncThunk(
         }
     }
 )
+
 export const getAllTodo = createAsyncThunk(
     'todo/getall',
     async(_, thunkApi) => {
@@ -55,12 +56,14 @@ export const updateTodo = createAsyncThunk(
     async({_id, name, content, status}, thunkApi) => {
         try{
             const config = {
-                "Authorization":`Bearer ${localStorage.getItem('token')}`
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem('token')}`
+                }
             }
-            await axios.put(URL+'todo/',{
+            const {data} = await axios.put(URL+'todo/',{
                 id:_id, name, content, status
             },config)
-            return {_id, name, content, status};
+            return {_id, name, content, status} = data.todo;
         }catch({response}){
             return thunkApi.rejectWithValue(response.data);
         }
@@ -68,10 +71,12 @@ export const updateTodo = createAsyncThunk(
 )
 export const deleteTodo = createAsyncThunk(
     'todo/delete',
-    async({id}, thunkApi) => {
+    async(id, thunkApi) => {
         try{
             await axios.delete(URL+`todo/${id}`,{
-                "Authorization":`Bearer ${localStorage.getItem('token')}`
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem('token')}`
+                }
             });
             return id;
         }catch({response}){

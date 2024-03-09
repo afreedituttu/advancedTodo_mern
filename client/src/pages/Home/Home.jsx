@@ -4,23 +4,7 @@ import Add from '../../components/Todo/Add'
 import List from '../../components/Todo/List';
 
 const Home = () => {
-  // const {settodo} = contextHook();
   const [error, setError] = useState();
-  // useEffect(()=>{
-  //   async function gettodo(){
-  //     try{
-  //       const {data} = await axios.get(URL+'todo',{
-  //         headers:{
-  //           "authorization":`Bearer ${localStorage.getItem('token')}`
-  //         }
-  //       })
-  //       settodo(data.todo);
-  //     }catch({response}){
-  //       setError(response.data.message);
-  //     }
-  //   };
-  //   gettodo();
-  // },[])
   return (
     <div>
     <Navbar />

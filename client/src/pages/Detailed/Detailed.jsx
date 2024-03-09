@@ -1,35 +1,27 @@
 import {React, useEffect, useState} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../../components/Navbar';
-import { URL } from '../../constants';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteTodo, getTodo, updateTodo } from '../../features/todo/todoActions';
 
 const Detailed = () => {
   const {id} = useParams(null);
-  const [todo, setTodo] = useState([]);
-  const [message, setMessage] = useState(null);
+  const {error, todo} = useSelector(state=>state.todo);
   const [changed, setChanged] = useState(false);
+  const [tempTodo, setTempTodo] = useState({
+    name:"",
+    content:""
+  });
   const navigate = useNavigate(null);
+  const dispatch = useDispatch();
 
   useEffect(()=>{
-    async function getTodo(){
-      try{
-        const {data} = await axios.get(URL+`/todo/${id}`,{
-          headers:{
-            "authorization":`Bearer ${localStorage.getItem('token')}`
-          }
-        })
-        setTodo(data.todo);
-      }catch({response}){
-        setMessage(response.data.message);
-      }
-    }
-    getTodo();
-  },[])
+    dispatch(getTodo(id))
+  },[id])
   const onchange = (e) => {
     setChanged(true);
     const {name, value} = e.target;
-    setTodo((old_todo)=>{
+    setTempTodo((old_todo)=>{
       return {
         ...old_todo,
         [name]:value
@@ -37,37 +29,22 @@ const Detailed = () => {
     })
   }
   const update = async()=> {
-    try{
-      const {data} = await axios.put(URL+`/todo`, {
-        name:todo.name,
-        content:todo.content,
-        status:todo.status,
-        id:todo._id
-      }, {
-        headers:{
-          'authorization':`Bearer ${localStorage.getItem('token')}`
-        }
-      })
-      setMessage("Updated successfully");
-      setChanged(false)
-    }catch({response}){
-      setMessage(response.data.message);
-    }
+    dispatch(updateTodo({
+      name:tempTodo.name || todo.name,
+      content:tempTodo.content || todo.content,
+      _id:todo._id
+    }))
+  }
+  const updateStatus = async() => {
+    dispatch(updateTodo({
+      _id:todo._id,
+      status:!todo.status
+    }))
   }
   const delete_todo = async()=> {
-    try{
-      const {data} = await axios.delete(URL+'todo/'+id,{
-        headers:{
-          authorization:`Bearer ${localStorage.getItem('token')}`
-        }
-      })
-      setMessage("Deleted")
-      setTimeout(()=>{
-        navigate('/')
-      },2000)
-    }catch({response}){
-      setMessage(response.data.message);
-    }
+    dispatch(deleteTodo(todo._id))
+    alert('deleted')
+    navigate('/')
   }
   const updateActiveStyle = "transition py-1 px-3 bg-blue-600 text-white m-1"
   const updatePassiveStyle = "transition py-1 px-3 bg-gray-500 text-white m-1"
@@ -77,23 +54,17 @@ const Detailed = () => {
     <div>
       <Navbar />
       <div className=" p-5">
-      {message}
+      {error && error}
         <div className="h1 py-3 text-3xl">{todo && todo.name}</div>
         <form action="" onSubmit={(e)=>{e.preventDefault()}} className=' flex flex-col gap-2 w-7/12'>
           <input type="text" className=' p-1 border-b-2 border-gray-300 bg-gray-200' value={todo && todo._id} disabled name='name' />
-          <input type="text" className=' p-1 border-b-2 border-gray-300' value={todo && todo.name} onChange={onchange} name='name' />
-          <input type="text" className=' p-1 border-b-2 border-gray-300' value={todo && todo.content} onChange={onchange} name='content' />
+          current name : <input type="text" className=' p-1 border-b-2 border-gray-300' value={todo && todo.name} disabled name='name' />
+          new name : <input type="text" className=' p-1 border-b-2 border-gray-300' value={tempTodo && tempTodo.name} onChange={onchange} name='name' />
+          current content : <input type="text" className=' p-1 border-b-2 border-gray-300' value={todo && todo.content} disabled name='content' />
+          new content : <input type="text" className=' p-1 border-b-2 border-gray-300' value={tempTodo && tempTodo.content} onChange={onchange} name='content' />
           <div className="buttons">
           <button onClick={update} className={changed?updateActiveStyle:updatePassiveStyle} disabled={!changed} >update</button>
-          <button className={todo && todo.status?statusPassiveStyle:statusActiveStyle} onClick={()=>{
-            setTodo(()=>{
-              setChanged(true);
-              return {
-                ...todo,
-                "status":!todo.status
-              }
-            })
-          }}>{todo && todo.status==true?"incomplete":"complete"}</button>
+          <button className={todo && todo.status?statusPassiveStyle:statusActiveStyle} onClick={updateStatus}>{todo && todo.status==true?"incomplete":"complete"}</button>
           <button onClick={delete_todo} className=' py-1 px-3 bg-red-500 text-white m-1' >delete</button>
           </div>
         </form>

@@ -16,6 +16,7 @@ export const todoSlice = createSlice({
             state.loading = true
         })
         .addCase(addTodo.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
             state.todos.push(action.payload.todo)
         })
@@ -27,6 +28,7 @@ export const todoSlice = createSlice({
             state.loading = true
         })
         .addCase(getAllTodo.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
             state.todos = action.payload.todo
         })
@@ -38,6 +40,7 @@ export const todoSlice = createSlice({
             state.loading = true
         })
         .addCase(getTodo.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
             state.todo = action.payload.todo;
         })
@@ -45,14 +48,15 @@ export const todoSlice = createSlice({
             state.loading = false
             state.error = action.payload.message
         })
-        // work from here
         .addCase(updateTodo.pending, (state, action)=>{
             state.loading = true
         })
         .addCase(updateTodo.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
             const targetIndex = state.todos.findIndex(todo=>todo._id==action.payload._id)
             state.todos[targetIndex] = action.payload;
+            state.todo = action.payload
         })
         .addCase(updateTodo.rejected, (state, action)=>{
             state.loading = false
@@ -62,8 +66,9 @@ export const todoSlice = createSlice({
             state.loading = true
         })
         .addCase(deleteTodo.fulfilled, (state, action)=>{
+            state.error = false
             state.loading = false
-            const targetIndex = state.todos.findIndex(todo=>todo._id==action.payload._id)
+            const targetIndex = state.todos.findIndex(todo=>todo._id==action.payload)
             state.todos.splice(targetIndex, 1)
         })
         .addCase(deleteTodo.rejected, (state, action)=>{

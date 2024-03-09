@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getAllTodo } from '../../features/todo/todoActions'
+import { deleteTodo, getAllTodo } from '../../features/todo/todoActions'
 import {useDispatch, useSelector} from 'react-redux'
 
 const List = ({editAble}) => {
@@ -10,19 +10,7 @@ const List = ({editAble}) => {
       dispatch(getAllTodo());
     },[])
     const delete_todo = async(id)=> {
-      // try{
-      //   const {data} = await axios.delete(URL+'todo/'+id,{
-      //     headers:{
-      //       authorization:`Bearer ${localStorage.getItem('token')}`
-      //     }
-      //   })
-      //   settodo((old_todo)=>{
-      //     return old_todo.filter(todo=>todo._id!=id)
-      //   })
-      //   setMessage("Deleted")
-      // }catch({response}){
-      //   setMessage(response.data.message);
-      // }
+      dispatch(deleteTodo(id))
     }
   return (
     <div>

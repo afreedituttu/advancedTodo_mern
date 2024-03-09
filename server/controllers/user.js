@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/user');
+const { userTodoDelete } = require('../Helper/todo');
 
 const private_details = asyncHandler(async(req, res)=>{
     res.status(200).json({
@@ -25,8 +26,6 @@ const get_profile = asyncHandler(async(req, res)=>{
 })
 
 const update_profile = asyncHandler(async(req, res)=>{
-    console.log('hitted');
-
     const { username, email} = req.body;
     const updated_user = await User.findByIdAndUpdate(req.user._id, {
         $set:{username, email}
@@ -42,7 +41,8 @@ const update_profile = asyncHandler(async(req, res)=>{
 })
 
 const delete_profile = asyncHandler(async(req, res)=>{
-    await User.findByIdAndDelete(req.user._id);
+    await userTodoDelete(req.user._id);
+    await User.deleteOne({_id:req.user._id});
     res.status(200).json({
         success:true
     })

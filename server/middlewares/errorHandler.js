@@ -1,7 +1,7 @@
 const errorHandler = (err, req, res, next) => {
     console.log(err);
     if(err.code == 11000){
-        err.message = "Duplicate Field Value Enter"
+        err.message = "Already exist"
     }
     switch(err.name){
         case "SyntaxError":
@@ -9,11 +9,9 @@ const errorHandler = (err, req, res, next) => {
         case "CastError":
             err.message = "Please provide a valid id"
         case "TokenExpiredError":
-            err.message = "jwt expired"
+            err.message = "Session expired"
         case "JsonWebTokenError":
-            err.message = "jwt malformed"
-        default:
-            // do nothing
+            err.message = "Login to continue"
     }
 
     return res.status(err.statusCode || 500).json({

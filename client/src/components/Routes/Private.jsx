@@ -6,7 +6,6 @@ import {useDispatch} from 'react-redux'
 const Private = () => {
     const bool = localStorage.getItem('token') ? true : false;
     const [auth, setAuth] = useState(bool);
-    console.log(auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(()=>{

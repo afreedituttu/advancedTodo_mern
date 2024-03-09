@@ -44,7 +44,7 @@ const Update_todo = asyncHandler(async(req, res)=>{
     const updated_todo = await Todo.findOneAndUpdate({_id:id, userId:req.user._id}, {
         $set:{name, content, status}
     }, {new:true})
-    res.status(200).json({success:true,updated_todo})
+    res.status(200).json({success:true,todo:updated_todo})
 })
 
 module.exports = {GetAll_todo, Get_todo, Add_todo, Delete_todo, Update_todo}

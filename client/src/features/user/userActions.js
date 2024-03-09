@@ -82,3 +82,18 @@ export const updateProfile = createAsyncThunk(
         }
     }
 )
+
+export const deleteProfile = createAsyncThunk(
+    'user/deleteProfile',
+    async(_, thunkApi) => {
+        try{
+            await axios.delete(URL+'user',{
+                headers:{
+                    Authorization:`Bearer ${localStorage.getItem('token')}`
+                }
+            })
+        }catch(error){
+            return thunkApi.rejectWithValue()
+        }
+    }
+)

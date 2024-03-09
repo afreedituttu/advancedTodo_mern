@@ -23,7 +23,6 @@ const Add = () => {
   const [message, setMessage] = useState();
   const add = async()=> {
     dispatch(addTodo(input)).then((res)=>{
-      console.log(res);
       if(res.type == 'todo/add/fulfilled'){
         setMessage('Task added')
         setTimeout(()=>{
