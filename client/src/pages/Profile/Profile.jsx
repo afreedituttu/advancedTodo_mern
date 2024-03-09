@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProfile, getProfile, updateProfile } from '../../features/user/userActions';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
   const [input, setInput] = useState({
@@ -33,7 +34,7 @@ const Profile = () => {
       email:input.email?input.email:user.email
     })).then((res)=>{
       if(res.type == 'user/updateProfile/fulfilled'){
-        alert('updated')
+        toast.warn("Profile Updated")
       }
     })
   }

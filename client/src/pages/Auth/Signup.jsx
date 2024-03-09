@@ -1,7 +1,4 @@
-import React, { useContext, useState } from 'react'
-import { context } from '../../context/context';
-import axios from 'axios';
-import { URL } from '../../constants';
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../../features/user/userActions';
@@ -32,12 +29,12 @@ const Signup = () => {
     })
   }
   return (
-    <div className=' p-5 flex justify-center h-screen items-center'>
-    {error && error}
+    <div className=' p-5 flex flex-col justify-center w-full h-screen items-center'>
       <form onSubmit={(e)=>{
         e.preventDefault()
         submit()
-        }} className='p-3 bg-slate-200 flex flex-col gap-1'>
+       }} className='p-3 bg-slate-200 flex flex-col gap-1'>
+        {error && <div className=" bg-red-400 text-white p-2">{error}</div>}
         username : <input value={input.username} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='username' type="text" placeholder='Email'/>
         email : <input value={input.email} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='email' type="email" placeholder='Email'/>
         password : <input value={input.password} onChange={onchange} className=' outline-none p-1 w-96 border-b-2 border-stone-500' name='password' type="password" placeholder='Password'/>

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { deleteTodo, getAllTodo } from '../../features/todo/todoActions'
 import {useDispatch, useSelector} from 'react-redux'
+import { toast } from 'react-toastify'
 
 const List = ({editAble}) => {
     const {todos, error} = useSelector(state=>state.todo)
@@ -10,7 +11,11 @@ const List = ({editAble}) => {
       dispatch(getAllTodo());
     },[])
     const delete_todo = async(id)=> {
-      dispatch(deleteTodo(id))
+      dispatch(deleteTodo(id)).then((res)=>{
+        if(res.type == 'todo/delete/fulfilled'){
+          toast.error("Task Deleted")
+        }
+      })
     }
   return (
     <div>

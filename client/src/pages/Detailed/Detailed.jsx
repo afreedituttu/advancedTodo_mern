@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../../components/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTodo, getTodo, updateTodo } from '../../features/todo/todoActions';
+import { toast } from 'react-toastify';
 
 const Detailed = () => {
   const {id} = useParams(null);
@@ -33,13 +34,21 @@ const Detailed = () => {
       name:tempTodo.name || todo.name,
       content:tempTodo.content || todo.content,
       _id:todo._id
-    }))
+    })).then((res)=>{
+      if(res.type == "todo/update/fulfilled"){
+        toast.warn("Task Updated")
+      }
+    })
   }
   const updateStatus = async() => {
     dispatch(updateTodo({
       _id:todo._id,
       status:!todo.status
-    }))
+    })).then((res)=>{
+      if(res.type == "todo/update/fulfilled"){
+        toast.warn("Task Updated")
+      }
+    })
   }
   const delete_todo = async()=> {
     dispatch(deleteTodo(todo._id))

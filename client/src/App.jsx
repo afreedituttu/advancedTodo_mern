@@ -6,6 +6,8 @@ import Private from './components/Routes/Private'
 import Profile from './pages/Profile/Profile'
 import Home from './pages/Home/Home'
 import Detailed from './pages/Detailed/Detailed'
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
   return (
@@ -20,6 +22,7 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
         <Route path='*' element={<p>Not found</p>} />
       </Routes>
+      <ToastContainer position="bottom-center" autoClose='2000' />
     </div>
   )
 }

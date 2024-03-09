@@ -27,7 +27,6 @@ export const userSlice = createSlice({
         })
         .addCase(getUser.rejected, (state, action)=>{
             state.loading = false
-            state.error = action.payload.message
             localStorage.removeItem('token')
         })
         .addCase(userLogin.pending, (state, action)=>{
