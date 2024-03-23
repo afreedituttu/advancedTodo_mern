@@ -8,6 +8,7 @@ import Home from './pages/Home/Home'
 import Detailed from './pages/Detailed/Detailed'
 
 const App = () => {
+  
   return (
     <div>
       <Routes>
